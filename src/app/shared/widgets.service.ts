@@ -1,7 +1,13 @@
+import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { Widget } from './widget.model';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../app-store';
+import {
+  ADD_WIDGETS
+} from './widgets.reducer';
 
 const widgets = [
   {
@@ -26,7 +32,16 @@ const widgets = [
 
 @Injectable()
 export class WidgetsService {
-  widgets$: Observable<Widget[]> = Observable.of(widgets);
+  //widgets$: Observable<Widget[]> = Observable.of(widgets);
+  widgets$: Observable<Widget[]> = this.store.select('widgets');
 
-  constructor() {}
+  // Inject the Store
+  constructor(private http: Http, private store: Store<AppStore>) {
+    // cause yolo, we are just feeding like this for now
+    this.store.dispatch({type: ADD_WIDGETS, payload: widgets});
+
+    // Get the widgets into the
+    this.widgets$.subscribe(widgets => console.log('WIDGETS', widgets));
+  }
+
 }

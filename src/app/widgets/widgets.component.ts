@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WidgetsService, Widget } from '../shared';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-widgets',
@@ -7,7 +8,7 @@ import { WidgetsService, Widget } from '../shared';
   styleUrls: ['./widgets.component.css']
 })
 export class WidgetsComponent implements OnInit {
-  widgets: Widget[];
+  widgets$: Observable<Widget[]>;
   selectedWidget: Widget;
 
   constructor(
@@ -15,7 +16,7 @@ export class WidgetsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.widgetsService.widgets$.subscribe(widgets => this.widgets = widgets);
+    this.widgets$ = this.widgetsService.widgets$;//.subscribe(widgets => this.widgets = widgets);
   }
 
   resetWidget() {
@@ -28,9 +29,9 @@ export class WidgetsComponent implements OnInit {
   }
 
   deleteWidget(widget: Widget) {
-    this.widgets.forEach((w, index) => {
+    this.widgets$.forEach((w, index) => {
       if (w.id === widget.id) {
-        this.widgets.splice(index, 1);
+        this.widgets$.splice(index, 1);
       }
     });
 
@@ -39,4 +40,3 @@ export class WidgetsComponent implements OnInit {
     this.resetWidget();
   }
 }
-

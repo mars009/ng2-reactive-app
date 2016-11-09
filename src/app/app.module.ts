@@ -5,7 +5,8 @@ import { HttpModule } from '@angular/http';
 import { Ng2RestAppRoutingModule } from './app-routing.module';
 import { StoreModule } from '@ngrx/store';
 
-import { ItemsService, items, UsersService, users, WidgetsService, HomeService } from './shared';
+// Import the services and reducers
+import { ItemsService, items, UsersService, users, WidgetsService, HomeService, widgets } from './shared';
 
 import { AppComponent } from './app.component';
 import { ItemsComponent } from './items/items.component';
@@ -41,7 +42,8 @@ import { HomeComponent } from './home/home.component';
     FormsModule,
     HttpModule,
     Ng2RestAppRoutingModule,
-    StoreModule.provideStore({ items, users })
+    // Add "widgets" reducer to the store
+    StoreModule.provideStore({ items, users, widgets })
   ],
   providers: [ItemsService, UsersService, WidgetsService, HomeService],
   bootstrap: [AppComponent]
